@@ -1,0 +1,3 @@
+<?php
+
+echo 'O¹teæeno';

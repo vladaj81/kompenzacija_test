@@ -12,7 +12,7 @@ if (isset($_POST['sifra_partnera'])) {
     $datum_pregleda = $_POST['datum'];
     
     //UPIT ZA SELEKTOVANJE PODATAKA O OTVORENIM STAVKAMA PARTNERA
-    $upit = "SELECT * FROM get_otvorene_stavke_za_partnera_za_datum('$datum_pregleda', '$sifra_partnera')";
+    $upit = "SELECT * FROM get_otvorene_stavke_za_partnera_za_datum_proba('$datum_pregleda', '$sifra_partnera')";
 
     //IZVRSAVANJE UPITA
     $rezultat = pg_query($amso_konekcija, $upit);

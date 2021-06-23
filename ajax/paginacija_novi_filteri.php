@@ -6,7 +6,7 @@ if (isset($_POST)) {
     require_once '../dodaci/konekcija_amso.php';
 
     //POSTAVLJANJE LIMITA ZA BROJ KOMPENZACIJA PO STRANICI
-    $kompenzacija_po_stranici = 8;  
+    $kompenzacija_po_stranici = 7;  
 
     //KREIRANJE PROMENJIVIH ZA BROJ STRANICE I HTML OUTPUT
     $stranica = '';  
@@ -123,13 +123,12 @@ if (isset($_POST)) {
                             <select class="filtriraj_tabelu" id="pretraga_kriterijumi">
                                 <option selected value="-1">Svi statusi knjiženja</option>
                                 <option value="proknjizeno">Proknjiženo</option>
-                                <option value="odobreno">Odobreno</option>
                                 <option value="stornirano">Stornirano</option>
                             </select>
                         </div>
 
                         <div class="pdf_wrapper">
-                            <label for="pretraga_pdf" id="pdf_labela">Pretraga po statusu slanja pdf-a</label>
+                        <label for="pretraga_pdf" id="pdf_labela">Pretraga po statusu slanja pdf-a</label>
 
                             <select class="pdf_filter" id="pretraga_pdf">
                                 <option selected value="-1">Svi statusi pdf-a</option>
@@ -147,6 +146,10 @@ if (isset($_POST)) {
                         </div>
                     </div>
                 </form>';
+
+        //HR LINIJA - DODAO VLADA
+        $html .= '<hr class="hr_linija">';
+
         //DODAVANJE TABELE U HTML OUTPUT
         $html .= '<table class="table table-bordered" id="tabela_predlozi">
                     <thead>
@@ -443,22 +446,22 @@ if (isset($_POST)) {
         $upit_stranice .= " AND poslednja_akcija = '$status_knjizenja'";
     }
       
-      //AKO POSTOJI FILTER ZA PRIKAZ KOMPENZACIJA,ZA KOJE JE POSLAT PDF
-      if ($_POST['filteri']['status_pdfa'] == 'poslat_pdf' && $_POST['filteri']['status_pdfa'] != '-1') {
-  
-          //NASTAVLJANJE UPITA I DODAVANJE USLOVA
-          $upit_stranice .= " AND datum_slanja_pdfa IS NOT NULL";
-      }
-  
-      //AKO POSTOJI FILTER ZA PRIKAZ KOMPENZACIJA,ZA KOJE JE VRACEN PDF
-      if ($_POST['filteri']['status_pdfa'] == 'vracen_pdf' && $_POST['filteri']['status_pdfa'] != '-1') {
-  
-          //NASTAVLJANJE UPITA I DODAVANJE USLOVA
-          $upit_stranice .= " AND datum_vracanja_pdfa IS NOT NULL";
-      }
-      
-      //ZAVRSETAK UPITA ZA DOBIJANJE PODATAKA O PREDLOZIMA KOMPENZACIJE
-      $upit_stranice .= " ORDER BY kompenzacija_zaglavlje_id DESC";
+    //AKO POSTOJI FILTER ZA PRIKAZ KOMPENZACIJA,ZA KOJE JE POSLAT PDF
+    if ($_POST['filteri']['status_pdfa'] == 'poslat_pdf' && $_POST['filteri']['status_pdfa'] != '-1') {
+
+        //NASTAVLJANJE UPITA I DODAVANJE USLOVA
+        $upit_stranice .= " AND datum_slanja_pdfa IS NOT NULL";
+    }
+
+    //AKO POSTOJI FILTER ZA PRIKAZ KOMPENZACIJA,ZA KOJE JE VRACEN PDF
+    if ($_POST['filteri']['status_pdfa'] == 'vracen_pdf' && $_POST['filteri']['status_pdfa'] != '-1') {
+
+        //NASTAVLJANJE UPITA I DODAVANJE USLOVA
+        $upit_stranice .= " AND datum_vracanja_pdfa IS NOT NULL";
+    }
+    
+    //ZAVRSETAK UPITA ZA DOBIJANJE PODATAKA O PREDLOZIMA KOMPENZACIJE
+    $upit_stranice .= " ORDER BY kompenzacija_zaglavlje_id DESC";
 
 
     //IZVRSAVANJE UPITA ZA PAGINACIJU

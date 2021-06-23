@@ -569,11 +569,12 @@ else
             }
         });
 
-        //KREIRANJE PROMENJIVE ZA UPIS ID-JA KOMPENZACIJE KOJA SE KNJIZI
-        var id_proknjizi;
 
         //FUNKCIJA NA KLIK DUGMETA PROKNJIZI
         $(document).on('click', '.proknjizi', function() {
+
+            //KREIRANJE PROMENJIVE ZA UPIS ID-JA KOMPENZACIJE KOJA SE KNJIZI
+            var id_proknjizi;
 
             //RESETOVANJE POLJA FORME ZA KNJIZENJE
             $('#datum_knjizenje').val('');

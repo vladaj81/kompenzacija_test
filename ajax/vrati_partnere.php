@@ -7,9 +7,9 @@ if (isset($_POST['datum'])) {
     require_once '../dodaci/konekcija_amso.php';
 
     $datum = $_POST['datum'];
-
+   
     //POZIVANJE PROCEDURE ZA DOBIJANJE LISTE PARTNERA SA OTVORENIM STAVKAMA,NA ZELJENI DATUM;
-    $upit = "SELECT * FROM get_lista_partnera_otvorene_stavke_za_datum('$datum')";
+    $upit = "SELECT * FROM get_lista_partnera_otvorene_stavke_za_datum_proba('$datum')";
 
     //IZVRSAVANJE UPITA
     $rezultat = pg_query($amso_konekcija, $upit);

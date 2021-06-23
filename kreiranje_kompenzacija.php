@@ -79,6 +79,9 @@ $min_datum = proveriZDatum('KVART', '1970-01-01');
         //FUNKCIJA NA KLIK DUGMETA SA ID-JEM POSALJI DATUM
         $(document).on('click', '#posalji_datum', function() { 
 
+            //SAKRIVANJE HR LINIJE
+            $('.margina').hide();
+
             //RESETOVANJE LISTE PARTNERA
             $('#lista_partnera').empty();
 
@@ -281,6 +284,9 @@ $min_datum = proveriZDatum('KVART', '1970-01-01');
     //FUNKCIJA ZA UPIS I PRIKAZ PODATAKA O PARTNERU 
     $(document).ready(function() {
 
+        //SAKRIVANJE HR LINIJE - DODAO VLADA
+        $('.margina').hide();
+
         //RESETOVANJE POLJA FORME SA PODACIMA O PARTNERU
         $('#naziv').val("");
         $('#pib').val("");
@@ -292,6 +298,9 @@ $min_datum = proveriZDatum('KVART', '1970-01-01');
 
         //FUNKCIJA NA KLIK DUGMETA PRIKAZI STAVKE
         $(document).on('click', '#prikazi_stavke', function() { 
+
+            //SAKRIVANJE HR LINIJE
+            $('.margina').hide();
 
             //RESETOVANJE POLJA SA BROJEM KOMPENZACIJE
             $('#broj_kompenzacije').val('');
@@ -341,19 +350,6 @@ $min_datum = proveriZDatum('KVART', '1970-01-01');
                         if (data[4]) $('#postanski_broj').val(data[4]); else $('#postanski_broj').val('---');
                         if (data[5]) $('#telefon').val(data[5]); else $('#telefon').val('---');
 
-                        //UPISIVANJE VISINE DIVOVA U PROMENLJIVE
-                        $visina_prvog_diva = $(".first").height();
-                        $visina_drugog_diva = $(".second").height();
-        
-                        //USLOV ZA IZJEDNACAVANJE VISINE DIVOVA: OBAVEZE I POTRAZIVANJA
-                        if ($visina_prvog_diva > $visina_drugog_diva) {
-
-                            $(".second").height($visina_prvog_diva);
-
-                        } else {
-
-                            $(".first").height($visina_drugog_diva);
-                        }
                     }  
                 });  
                 
@@ -403,6 +399,9 @@ $min_datum = proveriZDatum('KVART', '1970-01-01');
                         }
                         //AKO JE SVE OK,PRIKAZI PODATKE
                         else {
+
+                            //PRIKAZ HR LINIJE - DODAO VLADA
+                            $('.margina').show();
 
                             //ONEMOGUCI SCROLLOVANJE STRANICE
                             $('html').css('overflow', 'hidden');
@@ -474,16 +473,6 @@ $min_datum = proveriZDatum('KVART', '1970-01-01');
                         }
                         //console.log(niz_duguje[i]);
                     } 
-                });
-
-                //BLUR FUNKCIJA ZA POLJA OPIS DOKUMENTA
-                $("#opis_" + id).blur(function(){
-
-                    //AKO JE VREDNOST PRAZNA,OBAVESTI KORISNIKA
-                    if ($(this).val() == '') {
-
-                    alert('Morate popuniti polje opis dokumenta.');
-                    }
                 });
 
                 //DODAVANJE PODATAKA IZ CEKIRANOG PREDLOGA ZA KOMPENZACIJU U NIZ(IZNOS,KONTO, BROJ DOKUMENTA, KANAL PRODAJE)
@@ -799,17 +788,6 @@ $min_datum = proveriZDatum('KVART', '1970-01-01');
 
                 });
 
-                //BLUR FUNKCIJA ZA POLJA OPIS DOKUMENTA
-                $("#opis_" + id).blur(function(){
-
-                    //AKO JE VREDNOST PRAZNA,OBAVESTI KORISNIKA
-                    if ($(this).val() == '') {
-
-                        alert('Morate popuniti polje opis dokumenta.');
-                    }
-                });
-
-
                 //DODAVANJE PODATAKA IZ CEKIRANOG PREDLOGA ZA KOMPENZACIJU U NIZ(IZNOS,KONTO, BROJ DOKUMENTA, KANAL PRODAJE)
                 niz_podaci_potrazuje = [id, iznos, konto_potrazuje, broj_potrazuje, kanal_potrazuje, opis_potrazuje];
                 //console.log(niz_podaci_potrazuje);
@@ -1086,103 +1064,8 @@ $min_datum = proveriZDatum('KVART', '1970-01-01');
         //FUNKCIJA NA CLICK DUGMETA PRIPREMI KOMPENZACIJU
         $('#pripremi').click(function() {
 
-            //KREIRANJE NIZOVA ZA UNOS CEKIRANIH ID-JEVA 
-            var niz_cekirano_duguje = [];
-            var niz_cekirano_potrazuje = [];
-
-            //FLAGOVI ZA PROVERU DA LI JE UNET OPIS ZA SVE STAVKE
-            var provera_opisa_duguje = true;
-            var provera_opisa_potrazuje = true;
-
-
-            //ZA SVE CHECKBOX-OVE NA DUGOVNOJ STRANI
-            $('.cekiraj_duguje').each(function() {
-                
-                //AKO JE CHECKBOX CEKIRAN
-                if ($(this).is(':checked')) { 
-
-                    //UZIMANJE VREDNOSTI ID-JA I UPIS U NIZ
-                    var id = $(this).attr('id');
-                    niz_cekirano_duguje.push(id);
-                }
-            });
-
-            //console.log(niz_cekirano_duguje);
-
-            //DOBIJANJE DUZINE NIZA
-            var duzina_niza = niz_cekirano_duguje.length;
-
-            //PROLAZAK KROZ SVA POLJA OPIS DOKUMENTA NA DUGOVNOJ STRANI
-            $('.opis_duguje').each(function() {
-
-                //PROLAZAK KROZ NIZ SA ID-JEVIMA KOJI SU CEKIRANI
-                for (var i = 0; i < duzina_niza; i++) {
-
-                    //AKO SU ID-JEVI JEDNAKI
-                    if (niz_cekirano_duguje[i].substr(6) == $(this).attr('id').substr(11)) {
-
-                        //AKO JE POLJE OPIS DOKUMENTA PRAZNO,VRATI FALSE
-                        if ($(this).val() == '') {
-
-                            provera_opisa_duguje = false;
-                        }
-                    }
-                }
-            });
-
-
-
-            //ZA SVE CHECKBOX-OVE NA POTRAZNOJ STRANI
-            $('.cekiraj_potrazuje').each(function() {
-                
-                //AKO JE CHECKBOX CEKIRAN
-                if ($(this).is(':checked')) { 
-
-                    //UZIMANJE VREDNOSTI ID-JA I UPIS U NIZ
-                    var id = $(this).attr('id');
-                    niz_cekirano_potrazuje.push(id);
-                }
-            });
-
-            console.log(niz_cekirano_potrazuje);
-
-            //DOBIJANJE DUZINE NIZA
-            var duzina_niza2 = niz_cekirano_potrazuje.length;
-
-            //PROLAZAK KROZ SVA POLJA OPIS DOKUMENTA NA POTRAZNOJ STRANI
-            $('.opis_potrazuje').each(function() {
-
-                //PROLAZAK KROZ NIZ SA ID-JEVIMA KOJI SU CEKIRANI
-                for (var i = 0; i < duzina_niza2; i++) {
-
-                    //AKO SU ID-JEVI JEDNAKI
-                    if (niz_cekirano_potrazuje[i].substr(9) == $(this).attr('id').substr(14)) {
-
-                        //AKO JE POLJE OPIS DOKUMENTA PRAZNO,VRATI FALSE
-                        if ($(this).val() == '') {
-
-                            provera_opisa_potrazuje = false;
-                        }
-                    }
-                }
-            });
-
-            //AKO PROVERA OPISA NA DUGOVNOJ STRANI NIJE PROSLA
-            if (provera_opisa_duguje === false) {
-
-                alert('Morate uneti opis za sve odabrane stavke na dugovnoj strani.');
-                //return false;
-            }
-
-            //AKO PROVERA OPISA NA POTRAZNOJ STRANI NIJE PROSLA
-            else if (provera_opisa_potrazuje === false) {
-
-                alert('Morate uneti opis za sve odabrane stavke na potražnoj strani.');
-                //return false;
-            }
-
             //AKO JE SUMA NA DUGOVNOJ STRANI VECA,OBAVESTI KORISNIKA KOLIKA JE RAZLIKA
-            else if (suma_duguje > suma_potrazuje) {
+            if (suma_duguje > suma_potrazuje) {
 
                 var razlika = suma_duguje - suma_potrazuje;
 
@@ -1215,6 +1098,9 @@ $min_datum = proveriZDatum('KVART', '1970-01-01');
                     alert('Unesite broj kompenzacije,ako želite da nastavite.');
                 } 
                 else {
+
+                    //SAKRIVANJE HR LINIJE
+                    $('.margina').hide();
 
                     var broj_kompenzacije = $('#broj_kompenzacije').val();
 
@@ -1272,7 +1158,17 @@ $min_datum = proveriZDatum('KVART', '1970-01-01');
                             $('#pripremi').prop('disabled', true);
 
                             //console.log(data);
-                            alert(data);
+
+                            //AKO JE SVE OK,PRIKAZI PORUKU
+                            if (data.flag) {
+
+                                alert(data.poruka);
+                            }
+                            //U SUPROTNOM PRIKAZI GRESKU
+                            else {
+
+                                alert(data.greske);
+                            }
                         }
                     });
                 }
@@ -1322,6 +1218,9 @@ $min_datum = proveriZDatum('KVART', '1970-01-01');
 
                 </div>
                 <br/>
+
+                <!--HR LINIJA - DODAO VLADA-->
+                <hr class="margina">
 
                 <!--NOSECI DIV ZA DIVOVE PODACI O PARTNERU I WRAPPER-A OBAVEZE I POTRAZIVANJA POCETAK-->
                 <div id="prikaz_podataka">

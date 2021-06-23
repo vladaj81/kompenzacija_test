@@ -138,26 +138,26 @@ function generisi_pdf_za_kompenzacije($podaci_partnera, $rezultat_stavke)
 
 
     //OTVARANJE TABELE SA STAVKAMA KOMPENZACIJE NA POTRAZNOJ STRANI I KREIRANJE ZAGLAVLJA
-    $tabela_duguje = '<table cellspacing="0" cellpadding="5" border="1" style="height: 100%;">
+    $tabela_duguje = '<table cellspacing="0" cellpadding="3" border="1" style="height: 100%;">
                             <tr>
                                 <th align="center"><strong>Poverilačke obaveze prema dužniku:</strong></th>
                             </tr>
                             <tr>
                                 <td width="30%" align="center">Opis dokumenta</td>
-                                <td width="25%" align="center">Broj računa ili drugog dokumenta</td>
-                                <td width="15%" align="center">Dan <br>dospe-ća</td>
+                                <td width="30%" align="center">Broj računa ili drugog dokumenta</td>
+                                <td width="10%" align="center">Dan <br>dospe-ća</td>
                                 <td width="30%" align="center">Iznos</td>
                             </tr>';
 
     //OTVARANJE TABELE SA STAVKAMA KOMPENZACIJE NA DUGOVNOJ STRANI I KREIRANJE ZAGLAVLJA
-    $tabela_potrazuje = '<table cellspacing="0" cellpadding="5" border="1" style="height: 100%;">
+    $tabela_potrazuje = '<table cellspacing="0" cellpadding="3" border="1" style="height: 100%;">
                         <tr>
                             <th align="center"><strong>Dužničke obaveze prema poveriocu:</strong></th>
                         </tr>
                         <tr>
                             <td width="30%" align="center">Opis dokumenta</td>
-                            <td width="25%" align="center">Broj računa ili drugog dokumenta</td>
-                            <td width="15%" align="center">Dan <br>dospe-ća</td>
+                            <td width="30%" align="center">Broj računa ili drugog dokumenta</td>
+                            <td width="10%" align="center">Dan <br>dospe-ća</td>
                             <td width="30%" align="center">Iznos</td>
                         </tr>';
        
@@ -179,8 +179,8 @@ function generisi_pdf_za_kompenzacije($podaci_partnera, $rezultat_stavke)
 
             $tabela_potrazuje .= '<tr>
                                     <td width="30%" height="35" align="center">' .$stavke['opisdok']. '</td>
-                                    <td width="25%" height="35" align="center">' .$stavke['brojdok']. '</td>
-                                    <td width="15%" height="35" align="center"></td>
+                                    <td width="30%" height="35" align="center">' .$stavke['brojdok']. '</td>
+                                    <td width="10%" height="35" align="center"></td>
                                     <td width="30%" height="35" align="right">' .number_format($stavke['potrazuje'], 2). '</td>
                                 </tr>';
         }
@@ -194,8 +194,8 @@ function generisi_pdf_za_kompenzacije($podaci_partnera, $rezultat_stavke)
 
             $tabela_duguje .= '<tr>
                                     <td width="30%" height="35" align="center">' .$stavke['opisdok']. '</td>
-                                    <td width="25%" height="35" align="center">' .$stavke['brojdok']. '</td>
-                                    <td width="15%" height="35" align="center"></td>
+                                    <td width="30%" height="35" align="center">' .$stavke['brojdok']. '</td>
+                                    <td width="10%" height="35" align="center"></td>
                                     <td width="30%" height="35" align="right">' .number_format($stavke['duguje'], 2). '</td>
                                 </tr>';
         }
@@ -268,7 +268,7 @@ function generisi_pdf_za_kompenzacije($podaci_partnera, $rezultat_stavke)
                 //KREIRANJE TABELE SA TEKSTOM: RAZLIKU (SALDO) OD... I DODAVANJE U HTML
                 $html2 = '<table cellspacing="0" cellpadding="0" border="0">
                             <tr>
-                                <td>'.$brojac_duguje.'</td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -408,7 +408,7 @@ if (isset($_POST['id_kompenzacije'])) {
         $podaci_partnera = pg_fetch_array($rezultat);
 
         //UPIT ZA DOBIJANJE DETALJA O STAVKAMA ZA ODABRANU KOMPENZACIJU
-        $upit_stavke = "SELECT DISTINCT brojdok,opisdok,duguje,potrazuje FROM kompenzacija_stavke WHERE kompenzacija_zaglavlje_id = '".$_POST['id_kompenzacije']."' ORDER BY duguje,potrazuje";
+        $upit_stavke = "SELECT DISTINCT kompenzacija_stavke_id,brojdok,opisdok,duguje,potrazuje FROM kompenzacija_stavke WHERE kompenzacija_zaglavlje_id = ".$_POST['id_kompenzacije']." ORDER BY kompenzacija_stavke_id";
 
         //IZVRSAVANJE UPITA
         $rezultat_stavke = pg_query($amso_konekcija, $upit_stavke);
